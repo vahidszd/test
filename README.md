@@ -11,10 +11,23 @@ Full CMSSW simulations, including an appropriate model for the front-end electro
    cd ..
    ```
    *    after setting scram environment variables, please go to release base directory. Copy the [setup          file](https://github.com/m-sedghi/cmssw/blob/CMSSW_11_2_FbcmBcm1f/SimFbcm/Setup_FbcmBcm1F_CMSSW_11_2_X.s) to the  CMSSW_11_2_0_pre10 directory and type 
-  ```sh
-      ./Setup_Fbcm_CMSSW_11_2_X.sh
-     ```
+         ```sh
+         ./Setup_Fbcm_CMSSW_11_2_X.sh
+        ```
    
 - Generating Minibias events with pythia
+   * Go to the  directory where Minibias generating configuration file located
+     ```sh
+     cd <YourWorkDir>/CMSSW_11_2_0_pre10/src/SimFbcm/SampleConfigs/Fbcm2022Aug
+     ls
+     ```
+      then you can find **MinBias_14TeV_pythia8_TuneCUETP8M1_cfg.py** Python script which generates Minibias evets.
+    * Now type 
+      ```sh
+      cmsRun  MinBias_14TeV_pythia8_TuneCUETP8M1_cfg.py
+      ```
+      to generate MinBias events. It take few min for the script to do it's job (please be patient). 
+     
+      
 - Simulation of bunches with different pileupes by mixing the Minibias events generated in first step
 - 
