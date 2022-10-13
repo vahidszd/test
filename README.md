@@ -10,7 +10,7 @@ Full CMSSW simulations, including an appropriate model for the front-end electro
    cmsenv
    cd ..
    ```
-   *    after setting scram environment variables, please go to release base directory. Copy the [setup          file](https://github.com/m-sedghi/cmssw/blob/CMSSW_11_2_FbcmBcm1f/SimFbcm/Setup_FbcmBcm1F_CMSSW_11_2 _X.s) to the  CMSSW_11_2_0_pre10 directory and type 
+   *    after setting scram environment variables, please go to release base directory. Copy the [setup          file](https://github.com/m-sedghi/cmssw/blob/CMSSW_11_2_FbcmBcm1f/SimFbcm/Setup_FbcmBcm1F_CMSSW_11_2_X.s) to the  CMSSW_11_2_0_pre10 directory and type 
   ```sh
       ./Setup_Fbcm_CMSSW_11_2_X.sh
      ```
