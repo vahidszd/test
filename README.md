@@ -65,6 +65,8 @@ Full CMSSW simulations, including an appropriate model for the front-end electro
        config.section_("Site")
        config.Site.storageSite = "T2_CH_CERN"
        ```
+      * As you see This script cotains different sections seperated with empty line. You can study more about these sections on [CRAB configuration file](https://twiki.cern.ch/twiki/bin/view/CMSPublic/CRAB3ConfigurationFile). We have already produced five milion MiniBias events stored in 1000 root files and have stored them in **/eos/cms/store/group/dpg_bril/comm_bril/phase2-sim/FBCM/Aug2022Workshop/MinBias/FBCMV2MinBias/220820_202455/0000**.
+     * To submit jobs to the Crab you need to have permission. 
       
 * **Simulation of bunches with different pileupes by mixing the Minibias events generated in first step**
-- 
+  * Now go to **CMSSW_11_2_0_pre10/src/SimFbcm/SampleConfigs/CrabSamples2SubmitJobs/v3CrabAug2022** directory and  
