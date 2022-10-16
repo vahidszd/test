@@ -66,9 +66,38 @@ Full CMSSW simulations, including an appropriate model for the front-end electro
        config.Site.storageSite = "T2_CH_CERN"
        ```
   * As you see This script cotains different sections seperated with empty line. You can study more about these sections on [CRAB configuration file](https://twiki.cern.ch/twiki/bin/view/CMSPublic/CRAB3ConfigurationFile). We have already produced five milion MiniBias events stored in 1000 root files and have stored them in **/eos/cms/store/group/dpg_bril/comm_bril/phase2-sim/FBCM/Aug2022Workshop/MinBias/FBCMV2MinBias/220820_202455/0000**.
-  * To submit jobs to the Crab you need to have permission. 
-      
+  * To submit jobs to the Crab you need to have permission. Once you get your permition to use crab, you need to get your ticket ass follow
+    ```sh
+    voms-proxy-init
+    ```
+    the out put should be like
+    ```sh
+    Enter GRID pass phrase for this identity:*****
+    ```
+    then enter your pass phrase and you get 
+    ```sh
+    Created proxy in /tmp/x509up_u151705.
+
+    Your proxy is valid until Sun Nov 27 04:50:20 CET 2022
+    ```  
+    now you can submit your script to the Crab by
+    ```sh
+     crab submit -c crabMinBias_cfg_v0.py
+     ```
+     **crabDIGI_cfg.py** is called Crab configuration file which you have seen it above. Once you submit the config file, you must see output as
+     ```sh
+     Will use CRAB configuration file crabMinBias_cfg_v0.py
+     Importing CMSSW configuration 
+    Finished importing CMSSW configuration MinBias_14TeV_pythia8_TuneCUETP8M1_cfg.py
+    Sending the request to the server at cmsweb.cern.ch
+    Success: Your task has been delivered to the prod CRAB3 server.
+    Task name: 221016_125238:vsedighz_crab_FBCMMiniBias
+    Project dir: crab_lastAll/crab_FBCMMiniBias
+    Please use ' crab status -d crab_lastAll/crab_FBCMMiniBias ' to check how the submission process proceeds.
+    Log file is /afs/cern.ch/user/v/vsedighz/private/NewFbcm/last/CMSSW_11_2_0_pre10/src/SimFbcm/SampleConfigs/CrabSamples2SubmitJobs/v3CrabAug2022/crab_lastAll/crab_FBCMDIGIPU1/crab.log
+    ```
 * **Generatiin, Simulating and Degitizing**
+  * The FBCM digitizer emulates the functionality of the front-end ASIC and significantly affects the linearity behavior.
   * Now go to **CMSSW_11_2_0_pre10/src/SimFbcm/SampleConfigs/CrabSamples2SubmitJobs/v3CrabAug2022** directory and  list the contet of the directory. there should be a python script named  **GEN_SIM_DIGI_M2_cfg.py** . This is the main code which has been created by 
     ```sh
     cmsDriver.py --evt_type SingleNuE10_cfi -s GEN,SIM,DIGI --mc --fileout file:GEN_SIM_DIGI.root --conditions auto:phase2_realistic --pileup_input file:MinBias_14TeV_pythia8_TuneCUETP8M1_GEN_SIM.root --pileup "AVE_200_BX_25ns,{'B':(-3,3),'N':1.5}" --era Phase2,fbcmDigi,OnlyfbcmDigi --datatier GEN-SIM-DIGI-RAW --geometry Extended2026D81 --eventcontent FEVTDEBUG --python_filename GEN_SIM_DIGI_cfg.py --customise   SimFbcm/SiPadDigitizer/aging.no_aging,Configuration/DataProcessing/Utils.addMonitoring --nThreads 2 -n 2 --no_exe 
