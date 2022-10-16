@@ -3,13 +3,13 @@ Full CMSSW simulations, including an appropriate model for the front-end electro
 ## In order to use this simulation, we need to follow the following steps:
 * **Setup workspace for FBCM simulation in CMSSW_11_2_X**
   * Setup your CMS_11_2_X
-   ```sh
-   cd <YourWorkDir>
-   cmsrel CMSSW_11_2_0_pre10
-   cd CMSSW_11_2_0_pre10/src
-   cmsenv
-   cd ..
-   ```
+    ```sh
+    cd <YourWorkDir>
+    cmsrel CMSSW_11_2_0_pre10
+    cd CMSSW_11_2_0_pre10/src
+    cmsenv
+    cd ..
+    ```
    *    after setting scram environment variables, please go to release base directory. Copy the [setup          file](https://github.com/m-sedghi/cmssw/blob/CMSSW_11_2_FbcmBcm1f/SimFbcm) to the  CMSSW_11_2_0_pre10 directory and type 
          ```sh
          chmod +x Setup_Fbcm_CMSSW_11_2_X.sh
@@ -65,8 +65,24 @@ Full CMSSW simulations, including an appropriate model for the front-end electro
        config.section_("Site")
        config.Site.storageSite = "T2_CH_CERN"
        ```
-      * As you see This script cotains different sections seperated with empty line. You can study more about these sections on [CRAB configuration file](https://twiki.cern.ch/twiki/bin/view/CMSPublic/CRAB3ConfigurationFile). We have already produced five milion MiniBias events stored in 1000 root files and have stored them in **/eos/cms/store/group/dpg_bril/comm_bril/phase2-sim/FBCM/Aug2022Workshop/MinBias/FBCMV2MinBias/220820_202455/0000**.
-     * To submit jobs to the Crab you need to have permission. 
+  * As you see This script cotains different sections seperated with empty line. You can study more about these sections on [CRAB configuration file](https://twiki.cern.ch/twiki/bin/view/CMSPublic/CRAB3ConfigurationFile). We have already produced five milion MiniBias events stored in 1000 root files and have stored them in **/eos/cms/store/group/dpg_bril/comm_bril/phase2-sim/FBCM/Aug2022Workshop/MinBias/FBCMV2MinBias/220820_202455/0000**.
+  * To submit jobs to the Crab you need to have permission. 
       
-* **Simulation of bunches with different pileupes by mixing the Minibias events generated in first step**
-  * Now go to **CMSSW_11_2_0_pre10/src/SimFbcm/SampleConfigs/CrabSamples2SubmitJobs/v3CrabAug2022** directory and  
+* **Generatiin, Simulating and Degitizing**
+  * Now go to **CMSSW_11_2_0_pre10/src/SimFbcm/SampleConfigs/CrabSamples2SubmitJobs/v3CrabAug2022** directory and  list the contet of the directory. there should be a python script named  **GEN_SIM_DIGI_M2_cfg.py** . This is the main code which has been created by 
+    ```sh
+    cmsDriver.py --evt_type SingleNuE10_cfi -s GEN,SIM,DIGI --mc --fileout file:GEN_SIM_DIGI.root --conditions auto:phase2_realistic --pileup_input file:MinBias_14TeV_pythia8_TuneCUETP8M1_GEN_SIM.root --pileup "AVE_200_BX_25ns,{'B':(-3,3),'N':1.5}" --era Phase2,fbcmDigi,OnlyfbcmDigi --datatier GEN-SIM-DIGI-RAW --geometry Extended2026D81 --eventcontent FEVTDEBUG --python_filename GEN_SIM_DIGI_cfg.py --customise   SimFbcm/SiPadDigitizer/aging.no_aging,Configuration/DataProcessing/Utils.addMonitoring --nThreads 2 -n 2 --no_exe 
+    ```
+  * Again you can test it by runing it locally. But it's better to modify some of it's lines to reduce it's running time. look at lines 23, 24 and 25. 
+    ```py
+    baseDirectory ='/eos/cms/store/group/dpg_bril/comm_bril/phase2-sim/FBCM/Aug2022Workshop/MinBias/FBCMV2MinBias/220820_202455'
+    minBiasFiles = getInputFileList(baseDirectory, "MinBias" )
+    #minBiasFiles = [minBiasFiles[0]]
+    ```
+  * As you see the last line is commented by '#'. Delet the '#' and comment above line. It should look like
+    ```py
+    baseDirectory ='/eos/cms/store/group/dpg_bril/comm_bril/phase2-sim/FBCM/Aug2022Workshop/MinBias/FBCMV2MinBias/220820_202455'
+    #minBiasFiles = getInputFileList(baseDirectory, "MinBias" )
+    minBiasFiles = [minBiasFiles[0]]
+      ```
+       Now the script uses only one of the root files generated in privious step.
